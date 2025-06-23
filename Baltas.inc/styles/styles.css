@@ -1,0 +1,242 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    background-color: #20202e;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ddd;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Loader Animation */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, #d9a653, transparent);
+    z-index: 999;
+    animation: load 2s ease-in-out forwards;
+    transform-origin: left;
+}
+
+@keyframes load {
+    0% { transform: scaleX(0); }
+    100% { transform: scaleX(1); }
+}
+
+/* Overlay & Background Effects */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(32, 32, 46, 0.8) 0%, rgba(32, 32, 46, 0.4) 100%);
+    z-index: 0;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), 
+                rgba(217, 166, 83, 0.15) 0%, 
+                transparent 80%);
+    transition: opacity 0.1s ease;
+    z-index: 0;
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* Welcome Window */
+.welcome-window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(192, 192, 192, 0.2);
+    padding: 40px 60px;
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    z-index: 2;
+    will-change: transform, opacity;
+}
+
+.welcome-window h2 {
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: #eee;
+    letter-spacing: 1.5px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    margin-bottom: 10px;
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+.pin-to-top {
+    top: 100px;
+    transition: top 0.8s cubic-bezier(0.22, 1, 0.36, 1), 
+                transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.typing {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #d9a653;
+    width: 0;
+    font-family: 'Inconsolata', monospace;
+    color: #d9a653;
+    animation: typing 3s steps(30, end) forwards, 
+               blink 0.7s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+/* Gateway Grid */
+.gateway-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    z-index: 1;
+    width: 80%;
+    max-width: 800px;
+}
+
+.gateway-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2/1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(192, 192, 192, 0.2);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.box-highlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, 
+              rgba(217, 166, 83, 0.2) 0%, 
+              transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gateway-box:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.gateway-box:hover .box-highlight {
+    opacity: 1;
+}
+
+.gateway-box span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Animations */
+@keyframes gridFadeIn {
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@keyframes boxFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes boxPress {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .welcome-window {
+        padding: 30px;
+        width: 90%;
+    }
+    
+    .welcome-window h2 {
+        font-size: 1.8rem;
+    }
+    
+    .gateway-grid {
+        grid-template-columns: repeat(2, 1fr);
+        top: 60%;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gateway-grid {
+        grid-template-columns: 1fr;
+        width: 90%;
+    }
+    
+    .gateway-box {
+        aspect-ratio: 3/1;
+    }
+}
+
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
