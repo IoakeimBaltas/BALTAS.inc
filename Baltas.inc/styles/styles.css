@@ -156,6 +156,7 @@ body::before {
     transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(10px);
+    
 }
 
 .box-highlight {
@@ -185,6 +186,68 @@ body::before {
     z-index: 1;
 }
 
+/* Enhanced Image and 3D Effects */
+.gateway-box img {
+    width: 65px; /* Reduced from 60px */
+    height: 650px;
+    object-fit: contain;
+    margin-bottom: 8px;
+    filter: 
+        drop-shadow(0 2px 4px rgba(0,0,0,0.5)) 
+        brightness(1.1)
+        contrast(1.1);
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+/* 3D Effect on Hover */
+.gateway-box:hover img {
+    transform: 
+        scale(1.1) 
+        rotateY(10deg) 
+        translateZ(10px);
+    filter:
+        drop-shadow(0 4px 8px rgba(0,0,0,0.7))
+        brightness(1.2)
+        contrast(1.2);
+}
+
+/* Text Styling (unchanged but included for reference) */
+.gateway-box span {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
+    margin-top: 8px; /* Added space between image and text */
+}
+
+/* Box Content Layout */
+.box-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 15px;
+    transform-style: preserve-3d;
+    perspective: 500px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .gateway-box img {
+        width: 100px;
+        height: 1000px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gateway-box img {
+        width: 100px;
+        height: 100px;
+    }
+}
 /* Animations */
 @keyframes gridFadeIn {
     to {
