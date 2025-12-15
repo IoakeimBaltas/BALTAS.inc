@@ -1,0 +1,551 @@
+/* --- Variables --- */
+:root {
+    --color-black: #1a1a1a;
+    --color-dark-grey: #2c2c2c;
+    --color-orange: #ff7f00; /* Main accent color */
+    --color-light-orange: #ffa54f;
+    --color-white: #f0f0f0;
+    --color-text: #bdbdbd;
+    --font-family-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --border-radius: 6px;
+}
+
+/* --- Global Styles & Reset --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-black);
+    color: var(--color-text);
+    font-family: var(--font-family-main);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* --- Header --- */
+.header {
+    background-color: var(--color-dark-grey);
+    padding: 20px 40px;
+    border-bottom: 3px solid var(--color-orange);
+}
+
+.header h1 {
+    font-size: 2.5em;
+    font-weight: 300;
+    color: var(--color-white);
+    letter-spacing: 2px;
+}
+
+/* --- Main Container & Layout --- */
+.container {
+    display: flex;
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 20px;
+    gap: 40px;
+}
+
+/* --- Section Titles --- */
+.section-title {
+    font-size: 1.8em;
+    font-weight: 400;
+    color: var(--color-orange);
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--color-dark-grey);
+    padding-bottom: 5px;
+}
+
+/* --- Log Cigar Section (Form) --- */
+.log-cigar-section {
+    flex: 1; 
+    min-width: 350px;
+}
+
+.cigar-form {
+    background-color: var(--color-dark-grey);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    position: relative; 
+}
+
+/* Step Indicators */
+.step-indicators {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-black);
+}
+
+.step-dot {
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-black);
+    color: var(--color-text);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border: 2px solid var(--color-dark-grey);
+    transition: all 0.3s;
+}
+
+.step-dot.active {
+    background-color: var(--color-orange);
+    color: var(--color-black);
+    border-color: var(--color-orange);
+}
+
+/* Multi-Step Form Control */
+.form-step {
+    display: none; /* Hide all steps by default */
+}
+
+.form-step.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.half-width {
+    flex-direction: row;
+    gap: 20px;
+}
+.form-group.half-width > * {
+    flex: 1;
+}
+
+label {
+    font-size: 0.9em;
+    color: var(--color-white);
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+textarea {
+    background-color: var(--color-black);
+    color: var(--color-text);
+    border: 1px solid var(--color-dark-grey);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-orange);
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Photo Upload */
+.upload-group {
+    align-items: flex-start;
+}
+
+input[type="file"] {
+    padding: 0;
+    border: none;
+    font-size: 0.9em;
+}
+
+.photo-preview {
+    width: 100%;
+    height: 150px;
+    background-color: var(--color-black);
+    border: 1px dashed var(--color-orange);
+    margin-top: 10px;
+    border-radius: var(--border-radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* Rating Stars */
+.rating {
+    display: flex;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.rating i {
+    color: var(--color-dark-grey); 
+    transition: color 0.2s;
+}
+
+.rating i.filled {
+    color: var(--color-orange);
+}
+
+/* Button & Navigation */
+.btn {
+    background-color: var(--color-orange);
+    color: var(--color-black);
+    border: none;
+    padding: 12px 25px;
+    border-radius: var(--border-radius);
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    width: 100%;
+    margin-top: 15px;
+    letter-spacing: 1px;
+}
+
+.btn:hover {
+    background-color: var(--color-light-orange);
+}
+
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.form-navigation .btn {
+    width: 50%;
+    margin-top: 0;
+}
+
+.form-navigation .back-btn {
+    background-color: var(--color-black);
+    color: var(--color-orange);
+    border: 1px solid var(--color-orange);
+}
+
+.form-navigation .back-btn:hover {
+    background-color: var(--color-dark-grey);
+}
+
+/* Review Step */
+.review-title {
+    color: var(--color-white);
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.review-content {
+    background-color: var(--color-black);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--color-dark-grey);
+}
+
+.review-item {
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--color-dark-grey);
+}
+.review-item:last-child {
+    border-bottom: none;
+}
+.review-item strong {
+    color: var(--color-orange);
+    display: inline-block;
+    width: 150px;
+}
+.review-photo-preview {
+    width: 100%;
+    height: 150px;
+    margin-top: 10px;
+    background-color: var(--color-dark-grey);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+.review-photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* --- Collection Section (Right Panel) --- */
+.collection-section {
+    flex: 2; 
+    background-color: var(--color-dark-grey);
+    padding: 25px;
+    border-radius: var(--border-radius);
+}
+
+.empty-message {
+    text-align: center;
+    padding: 50px;
+    font-style: italic;
+    color: var(--color-text);
+}
+
+/* Collection Controls (Search & View Toggle) */
+.collection-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.view-label {
+    color: var(--color-white);
+    margin-right: 10px;
+}
+
+.list-btn, .grid-btn {
+    background: none;
+    color: var(--color-text);
+    border: 1px solid var(--color-orange);
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.list-btn {
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+    border-right: none;
+}
+.grid-btn {
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+.list-btn.active, .grid-btn.active {
+    background-color: var(--color-orange);
+    color: var(--color-black);
+}
+
+.search-box {
+    position: relative;
+}
+
+#searchCigars {
+    padding-right: 35px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-orange);
+}
+
+
+/* Cigar List / Grid Layouts */
+.cigar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cigar-list.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Individual Cigar Card */
+.cigar-card {
+    background-color: var(--color-black);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-dark-grey);
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cigar-card:hover {
+    box-shadow: 0 0 10px rgba(255, 127, 0, 0.4);
+}
+
+/* List View Specific Styles */
+.cigar-card-photo {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    background-color: var(--color-dark-grey);
+    border-radius: var(--border-radius);
+    margin-right: 15px;
+    overflow: hidden;
+}
+
+.cigar-card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cigar-card-details {
+    flex-grow: 1;
+}
+
+.cigar-card-details h3 {
+    color: var(--color-orange);
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.cigar-card-details p {
+    font-size: 0.9em;
+    color: var(--color-text);
+    margin-bottom: 3px;
+}
+
+.cigar-card-details .info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.85em;
+    color: var(--color-text);
+}
+
+.cigar-card-rating i {
+    color: var(--color-orange);
+    font-size: 1em;
+}
+
+/* Grid View Specific Styles */
+.grid-view .cigar-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+}
+
+.grid-view .cigar-card-photo {
+    width: 100%;
+    height: 150px;
+    margin-right: 0;
+    margin-bottom: 10px;
+}
+
+.grid-view .cigar-card-details .info-row {
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+/* --- Modal Styles --- */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); 
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--color-dark-grey);
+    margin: 10% auto; 
+    padding: 30px;
+    border: 3px solid var(--color-orange);
+    border-radius: 12px;
+    width: 80%; 
+    max-width: 700px;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.modal-title {
+    color: var(--color-orange);
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.close-btn {
+    color: var(--color-text);
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--color-light-orange);
+    text-decoration: none;
+}
+
+.modal-save-btn {
+    margin-top: 30px;
+}
+
+/* --- Flavor Wheel Styles --- */
+.select-flavor-btn {
+    background-color: var(--color-dark-grey);
+    color: var(--color-orange);
+    border: 1px solid var(--color-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.select-flavor-btn:hover {
+    background-color: var(--color-black);
+    color: var(--color-light-orange);
+}
+
+.flavor-wheel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+    border: 1px dashed var(--color-black);
+    border-radius: var(--border-radius);
+}
+
+.flavor-option {
+    padding: 8px 15px;
+    border-radius: 20px;
+    background-color: var(--color-black);
+    color: var(--color-text);
+    border: 1px solid var(--color-dark-grey);
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    font-size: 0.9em;
+}
+
+.flavor-option:hover {
+    background-color: var(--color-dark-grey);
+    border-color: var(--color-light-orange);
+}
+
+.flavor-option.selected {
+    background-color: var(--color-orange);
+    color: var(--color-black);
+    font-weight: bold;
+    border-color: var(--color-orange);
+}

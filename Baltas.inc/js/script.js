@@ -1,50 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Developer Touch: A subtle message in the console
-    console.log("-----------------------------------------");
     console.log(">>> Ioakeim Baltas Portfolio Initialized.");
-    console.log(">>> Built with modern web standards.");
-    console.log("-----------------------------------------");
 
-    // --- Active Navigation Highlighting ---
+    // HERO FADE-IN
+    const heroContent = document.querySelector('.hero-content');
+    const heroImage = document.querySelector('.hero-image-container');
+    setTimeout(() => {
+        heroContent.classList.add('visible');
+        heroImage.classList.add('visible');
+    }, 100);
+
+    // NAV ACTIVE LINK
     const navLinks = document.querySelectorAll('.main-nav a');
     const sections = document.querySelectorAll('main section');
-    
-    const options = {
-        root: null, // viewport
-        rootMargin: '0px',
-        threshold: 0.4 // Highlight when 40% of the section is visible
-    };
 
-    const observer = new IntersectionObserver((entries, observer) => {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Remove 'active' class from all links
+            if(entry.isIntersecting){
                 navLinks.forEach(link => link.classList.remove('active'));
-
-                // Find the corresponding link and add 'active' class
                 const id = entry.target.getAttribute('id');
                 const activeLink = document.querySelector(`.main-nav a[href="#${id}"]`);
-                if (activeLink) {
-                    activeLink.classList.add('active');
-                }
+                if(activeLink) activeLink.classList.add('active');
             }
         });
-    }, options);
+    }, { root:null, rootMargin:'0px', threshold:0.4 });
 
-    // Observe each portfolio section
-    sections.forEach(section => {
-        observer.observe(section);
+    sections.forEach(section => observer.observe(section));
+
+    // PROJECT CARD ANIMATION
+    const projectCards = document.querySelectorAll('.project-card');
+    const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold:0.2 });
+
+    projectCards.forEach(card => {
+        card.style.transform = 'translateY(30px)';
+        card.style.opacity = 0;
+        card.style.transition = 'all 0.6s ease-out';
+        cardObserver.observe(card);
     });
-    
-    // Optional: Add a subtle text effect or initial animation to the hero section
-    // (This is simple and doesn't require complex typing logic)
-    const heroH1 = document.querySelector('.hero-section h1');
-    if (heroH1) {
-        heroH1.style.opacity = 0;
-        setTimeout(() => {
-            heroH1.style.transition = 'opacity 1s ease-in';
-            heroH1.style.opacity = 1;
-        }, 100);
-    }
-    
 });
