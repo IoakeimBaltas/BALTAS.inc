@@ -2,99 +2,143 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Cigar Vault">
-    <meta name="keywords" content="home, vault, Cigar Vault">
-    <meta name="author" content="Ioakeim Baltas">
+    <meta name="description" content="Ioakeim Baltas - Software Engineering Student Portfolio">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Baltas.inc</title>
-
-    <!-- Favicon -->
+    <title>Ioakeim Baltas // SE Portfolio</title>
     <link rel="shortcut icon" type="image/x-icon" href="./assets/logo edelweiss.png">
 
-    <!-- Google Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600&family=Segoe+UI:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
 
-    <!-- Stylesheets -->
+    <!-- FontAwesome for icons -->
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+
+    <!-- Styles -->
     <link rel="stylesheet" href="Baltas.inc/styles/styles.css">
 </head>
 <body>
 
-    <div class="loader"></div>
-    <div class="overlay"></div>
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="logo">
+            <a href="#home">I. BALTAS</a>
+        </div>
+        <nav class="main-nav">
+            <a href="#projects">#projects</a>
+            <a href="#skills">#skills</a>
+            <a href="#about-me">#about-me</a>
+            <a href="#contact">#contact</a>
+        </nav>
+    </header>
 
-    <div class="welcome-window fade-in">
-        <h2>Welcome back, sir</h2>
-    </div>
+    <!-- MAIN -->
+    <main>
+        <!-- HERO SECTION -->
+        <section id="home" class="hero-section">
+            <div class="hero-content">
+                <h1>Hello, I'm Ioakeim, a <span class="accent-text">Software Engineering</span> Student.</h1>
+                <p class="tagline">
+                    Building scalable, test-driven applications with a focus on full-stack development.
+                </p>
+                <div class="cta-group">
+                    <a href="#projects" class="cta-button primary-cta">View Projects</a>
+                    <a href="#" class="cta-button secondary-cta">Download Resume</a>
+                </div>
+            </div>
+            <div class="hero-image-container">
+                <img 
+                    src="Baltas.inc/assets/my-profile-photo.jpg" 
+                    alt="Portrait of Ioakeim Baltas, Software Engineering Student" 
+                    class="profile-photo"
+                    loading="lazy"
+                >
+            </div>
+        </section>
 
-    <div class="gateway-grid hidden">
-        <div class="gateway-box" data-url="https://google.com">
-            <div class="box-content">
-                <img src="Baltas.inc/assets/edel.png" alt="Edelweiss.inc">
-                <span>Edelweiss.inc</span>
-                <div class="box-highlight"></div>
-            </div>
-        </div>
-        <div class="gateway-box" data-url="https://youtube.com">
-            <div class="box-content">
-                <img src="Baltas.inc/assets/ufo3.png" alt="Alien Game">
-                <span>Alien Game</span>
-                <div class="box-highlight"></div>
-            </div>
-        </div>
-        <div class="gateway-box" data-url="https://facebook.com">
-            <div class="box-content">
-                <img src="Baltas.inc/assets/gym2.png" alt="Gym App">
-                <span>Gym App</span>
-                <div class="box-highlight"></div>
-            </div>
-        </div>
-        <div class="gateway-box" data-url="https://instagram.com">
-            <div class="box-content">
-                <img src="Baltas.inc/assets/MOAD.png" alt="MOAD">
-                <span>MOAD</span>
-                <div class="box-highlight"></div>
-            </div>
-        </div>
-        <div class="gateway-box" data-url="https://reddit.com">
-            <div class="box-content">
-                <img src="Baltas.inc/assets/cigar-vault-invpng.png" alt="Cigar-Vault">
-                <span>Cigar-Vault</span>
-                <div class="box-highlight"></div>
-            </div>
-        </div>
-        <div class="gateway-box" data-url="https://google.com">
-            <div class="box-content">
-                <img src="Baltas.inc/assets/Adorithm3.png" alt="Adorithm">
-                <span>Adorithm</span>
-                <div class="box-highlight"></div>
-            </div>
-        </div>
-        <div class="gateway-box" data-url="https://google.com">
-            <div class="box-content">
-                <img src="Baltas.inc/assets/base32.png" alt="Base32">
-                <span>Base32 enc-dec</span>
-                <div class="box-highlight"></div>
-            </div>
-        </div>
-        <div class="gateway-box" data-url="https://google.com">
-            <div class="box-content">
-                <img src="Baltas.inc/assets/DDos.png" alt="DDos">
-                <span>DDos attacks</span>
-                <div class="box-highlight"></div>
-            </div>
-        </div>
-        <div class="gateway-box" data-url="https://google.com">
-            <div class="box-content">
-                <img src="Baltas.inc/assets/botnet.png" alt="Botnet">
-                <span>Botnet</span>
-                <div class="box-highlight"></div>
-            </div>
-        </div>
-       
+        <!-- PROJECTS SECTION -->
+        <section id="projects" class="portfolio-section">
+            <h2>#projects</h2>
+            <div class="project-grid">
 
+                <a href="Baltas.inc/projects/cigar-vault/cigar-vault.html" class="project-card">
+                    <div class="card-content">
+                        <h3>Cigar-Vault</h3>
+                        <p class="description">A way to store your experiences and log all the favourite profiles of your cigars.</p>
+                        <div class="tech-stack">
+                            <span>React</span> <span>Express.js</span> <span>Socket.IO</span> <span>PostgreSQL</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="link-to-project-detail.html" class="project-card">
+                    <div class="card-content">
+                        <h3>C++ Algorithmic Trading Backtester</h3>
+                        <p class="description">High-performance C++ engine for testing and visualizing algorithmic trading strategies against historical data.</p>
+                        <div class="tech-stack">
+                            <span>C++</span> <span>Python (Data Viz)</span> <span>Multithreading</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="link-to-project-detail.html" class="project-card">
+                    <div class="card-content">
+                        <h3>Automated CI/CD Pipeline Setup</h3>
+                        <p class="description">Configuration of automated deployment pipelines for static sites and containers using modern cloud services.</p>
+                        <div class="tech-stack">
+                            <span>GitHub Actions</span> <span>Docker</span> <span>Vercel/Netlify</span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- SKILLS SECTION -->
+        <section id="skills" class="portfolio-section">
+            <h2>#skills</h2>
+            <div class="skills-grid">
+                <div class="skill-item">JavaScript</div>
+                <div class="skill-item">Python</div>
+                <div class="skill-item">C++</div>
+                <div class="skill-item">React</div>
+                <div class="skill-item">Node.js / Express</div>
+                <div class="skill-item">PostgreSQL / MongoDB</div>
+                <div class="skill-item">Git / GitHub</div>
+                <div class="skill-item">Docker</div>
+            </div>
+        </section>
+
+        <!-- ABOUT ME SECTION -->
+        <section id="about-me" class="portfolio-section about-me-section">
+            <h2>#about-me</h2>
+            <div class="about-content">
+                <p>Driven by solving complex problems with efficient, clean code, I am a dedicated Software Engineering student constantly seeking to deepen my technical expertise.</p>
+                <p>My current focus lies in the <strong>MERN stack</strong> and <strong>microservices architecture</strong>, where I enjoy building robust, end-to-end solutions. I strongly believe in the value of test-driven development and code maintainability.</p>
+                <p>I am actively seeking a challenging <strong>Summer 2026 Internship</strong> in a full-stack or backend engineering role where I can contribute my skills and learn from experienced teams.</p>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="portfolio-section contact-section">
+            <h2>#contact</h2>
+            <p>I'm open to interesting opportunities. Feel free to reach out to connect or discuss a potential project.</p>
+            <div class="contact-links">
+                <a href="mailto:your.email@example.com" class="contact-link"><i class="fas fa-envelope"></i> Email</a>
+                <a href="https://github.com/your-username" class="contact-link"><i class="fab fa-github"></i> GitHub</a>
+                <a href="https://linkedin.com/in/your-username" class="contact-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <p>&copy; 2025 Ioakeim Baltas. Built with <span class="accent-text">Code</span> and <span class="accent-text">Passion</span>.</p>
+    </footer>
+
+    <!-- SCRIPT -->
     <script src="Baltas.inc/js/script.js"></script>
 </body>
 </html>
