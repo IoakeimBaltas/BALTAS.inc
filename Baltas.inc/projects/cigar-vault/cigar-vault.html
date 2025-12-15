@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cigar Vault | My Collection</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <h1>Cigar Vault</h1>
+    </header>
+
+    <main class="container">
+        <section class="log-cigar-section">
+            <h2 class="section-title" id="form-step-title">Step 1: Cigar Details & Blend</h2>
+            <form id="new-cigar-form" class="cigar-form">
+                
+                <div class="step-indicators">
+                    <span class="step-dot active" data-step="1">1</span>
+                    <span class="step-dot" data-step="2">2</span>
+                    <span class="step-dot" data-step="3">3</span>
+                    <span class="step-dot" data-step="4"><i class="fa-solid fa-check"></i></span>
+                </div>
+
+                <div class="form-step active" id="step-1">
+                    <div class="form-group">
+                        <label for="cigarName">Cigar Name:</label>
+                        <input type="text" id="cigarName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="brand">Brand:</label>
+                        <input type="text" id="brand" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="origin">Origin:</label>
+                        <input type="text" id="origin">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="wrapper">Wrapper:</label>
+                        <input type="text" id="wrapper">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="binder">Binder:</label>
+                        <input type="text" id="binder">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="filler">Filler:</label>
+                        <input type="text" id="filler">
+                    </div>
+                    
+                    <div class="form-navigation">
+                        <button type="button" class="btn next-btn" data-target-step="2">Next Step</button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step-2">
+                    <div class="form-group">
+                        <label for="dateSmoked">Date Smoked:</label>
+                        <input type="date" id="dateSmoked" required>
+                    </div>
+
+                    <div class="form-group half-width">
+                        <label for="lengthGauge">Length/Ring Gauge:</label>
+                        <input type="text" id="lengthGauge">
+                    </div>
+                    
+                    <div class="form-group half-width">
+                        <label for="duration">Duration (mins):</label>
+                        <input type="number" id="duration">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rating (1-5 $\star$):</label>
+                        <div class="rating" id="rating">
+                            <i class="fa-solid fa-star" data-rating="1"></i>
+                            <i class="fa-solid fa-star" data-rating="2"></i>
+                            <i class="fa-solid fa-star" data-rating="3"></i>
+                            <i class="fa-solid fa-star" data-rating="4"></i>
+                            <i class="fa-solid fa-star" data-rating="5"></i>
+                            <input type="hidden" id="cigarRating" value="0"> 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Flavor Profile:</label>
+                        <button type="button" class="btn select-flavor-btn" id="openFlavorModal">
+                            <i class="fa-solid fa-circle-notch"></i> Select Flavors (<span id="selectedFlavorCount">0</span>)
+                        </button>
+                        <input type="hidden" id="flavorProfile" value="">
+                    </div>
+                    
+                    <div class="form-group upload-group">
+                        <label for="photoFile">Upload Photo:</label>
+                        <input type="file" id="photoFile" accept="image/*">
+                        <div class="photo-preview" id="photoPreview"></div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn back-btn" data-target-step="1">Back</button>
+                        <button type="button" class="btn next-btn" data-target-step="3">Next Step</button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step-3">
+                    <div class="form-group">
+                        <label for="notes">Notes:</label>
+                        <textarea id="notes" rows="6"></textarea>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn back-btn" data-target-step="2">Back</button>
+                        <button type="button" class="btn next-btn" data-target-step="4">Review Log</button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step-4">
+                    <h3 class="review-title">Final Cigar Log Review</h3>
+                    <div id="review-content" class="review-content">
+                        </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn back-btn" data-target-step="3">Edit Notes</button>
+                        <button type="submit" class="btn">Save Log</button>
+                    </div>
+                </div>
+
+            </form>
+        </section>
+
+        <section class="collection-section">
+            <h2 class="section-title">Your Collection</h2>
+            
+            <div class="collection-controls">
+                <div class="view-toggle">
+                    <span class="view-label">View:</span>
+                    <button class="list-btn active" id="listViewToggle">List</button>
+                    <button class="grid-btn" id="gridViewToggle">Grid</button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchCigars" placeholder="Search by name or brand...">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                </div>
+            </div>
+
+            <div id="cigarList" class="cigar-list list-view">
+                <p id="noCigarsMessage" class="empty-message">No cigars logged yet. Start by logging one!</p>
+            </div>
+        </section>
+    </main>
+
+    <div id="flavorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 class="modal-title">Cigar Flavor Selector</h3>
+            <p>Click to select the primary flavor categories:</p>
+            <div id="flavorWheelContainer" class="flavor-wheel">
+                </div>
+            <button class="btn modal-save-btn" id="saveFlavorsBtn">Confirm Selection</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
