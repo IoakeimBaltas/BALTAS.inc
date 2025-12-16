@@ -1,40 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cigar-Vault Demo</title>
-    <link rel="stylesheet" href="../../styles/styles.css">
-    <style>
-        body {
-            background-color: var(--dark-bg);
-            color: var(--light-text);
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            padding: 50px;
-        }
-        .coming-soon {
-            border: 2px solid var(--accent-color);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(255,46,46,0.3);
-        }
-        .coming-soon h1 {
-            color: var(--accent-color);
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cigar Vault Demo</title>
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; font-family: Arial, sans-serif; }
+    body { background:#f4f0e6; color:#333; min-height:100vh; }
+    header { background:#2e1f14; color:#fff; padding:20px; text-align:center; position:relative; }
+    
+    /* Back button */
+    #backBtn {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background:#fff;
+      color:#2e1f14;
+      border:none;
+      padding:8px 15px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:bold;
+      transition:0.3s;
+    }
+    #backBtn:hover { background:#f0f0f0; }
+
+    main { padding:20px; display:flex; flex-direction:column; gap:20px; }
+
+    /* Center buttons screen */
+    .centered-buttons { 
+      justify-content: center; 
+      align-items: center; 
+      height: calc(100vh - 80px); /* full viewport minus header */
+    }
+
+    .main-button {
+      display:inline-block;
+      padding:20px 40px;
+      background:#2e1f14;
+      color:#fff;
+      text-decoration:none;
+      font-size:1.2em;
+      border-radius:10px;
+      transition:0.3s;
+      cursor:pointer;
+    }
+    .main-button:hover { background:#4b2e1d; }
+
+    /* Step form styling */
+    .step-form { max-width:500px; width:100%; margin:20px auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.2); }
+    .step-form input, .step-form textarea, .step-form button { width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc; }
+    .step-form button { background:#2e1f14; color:#fff; border:none; cursor:pointer; }
+    .step-form button:hover { background:#4b2e1d; }
+
+    /* Flavor wheel canvas */
+    #flavorWheel { display:block; margin:20px auto; max-width:300px; width:100%; height:300px; background:#f4f0e6; border-radius:50%; box-shadow:0 2px 5px rgba(0,0,0,0.2); }
+
+    /* Vault logs styling */
+    .cigar-card { background:#fff; padding:15px; margin-bottom:15px; border-radius:10px; display:flex; flex-wrap:wrap; gap:15px; box-shadow:0 2px 5px rgba(0,0,0,0.2); width:100%; max-width:600px; }
+    .cigar-card img { width:100px; height:100px; object-fit:cover; border-radius:10px; }
+    .cigar-info { flex:1; }
+    .cigar-info h3 { margin-bottom:5px; }
+    .cigar-info p { font-size:0.9em; margin-bottom:5px; }
+    .cigar-card button { background:#a52a2a; color:#fff; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; }
+    .cigar-card button:hover { background:#c0392b; }
+
+    @media(max-width:600px){
+      .cigar-card { flex-direction:column; align-items:center; }
+      .cigar-card img { width:80%; height:auto; }
+      .step-form { width:90%; padding:15px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="coming-soon">
-        <h1>Cigar-Vault Demo</h1>
-        <p>The live demo will be available soon!</p>
-        <a href="/Baltas.inc/index.html" class="cta-button secondary-cta">Back to Portfolio</a>
-    </div>
+  <header>
+    <button id="backBtn" onclick="history.back()">Back</button>
+    <h1>Cigar Vault Demo</h1>
+  </header>
+
+  <main id="content">
+    <!-- Buttons or form will appear here -->
+  </main>
+
+  <script>
+    const content = document.getElementById('content');
+    let cigars = JSON.parse(localStorage.getItem('cigars')) || [];
+    const steps = [
+      { title:"Step 1: Cigar Details", render:()=>`
+        <input type="text" id="name" placeholder="Cigar Name" required>
+        <input type="number" id="price" placeholder="Price ($)" step="0.01" required>
+        <input type="date" id="date" required>
+      ` },
+      { title:"Step 2: Flavor Profile", render:()=>`
+        <canvas id="flavorWheel"></canvas>
+        <p style="text-align:center;">Click on the wheel to set flavor intensity (0-5).</p>
+      ` },
+      { title:"Step 3: Photo & Description", render:()=>`
+        <input type="url" id="photo" placeholder="Photo URL (optional)">
+        <textarea id="description" placeholder="Short description"></textarea>
+      ` },
+      { title:"Step 4: Review & Save", render:()=>`
+        <div id="review"></div>
+        <button id="saveBtn">Save Cigar</button>
+      ` }
+    ];
+    let currentStep = 0;
+    let cigarData = { flavorProfile:{} };
+
+    function showButtonsScreen() {
+      content.classList.add('centered-buttons');
+      content.innerHTML = `
+        <a id="logNewBtn" class="main-button">Log a New Cigar</a>
+        <a id="viewVaultBtn" class="main-button">View Vault</a>
+      `;
+      document.getElementById('logNewBtn').addEventListener('click', () => {
+        content.classList.remove('centered-buttons');
+        showForm();
+      });
+      document.getElementById('viewVaultBtn').addEventListener('click', () => {
+        content.classList.remove('centered-buttons');
+        renderVault();
+      });
+    }
+
+    function showForm() {
+      cigarData = { flavorProfile:{} };
+      currentStep = 0;
+      content.innerHTML = `<div class="step-form" id="stepForm"></div>`;
+      renderStep();
+    }
+
+    function renderStep(){
+      const stepForm = document.getElementById('stepForm');
+      stepForm.innerHTML = `<h2>${steps[currentStep].title}</h2>` + steps[currentStep].render() +
+        `<div style="display:flex; justify-content: space-between; margin-top:10px;">
+           <button id="prevBtn" ${currentStep===0?'style="visibility:hidden;"':''}>Previous</button>
+           <button id="nextBtn" ${currentStep===steps.length-1?'style="display:none;"':''}>Next</button>
+        </div>`;
+
+      if(currentStep===1) setupFlavorWheel();
+      if(currentStep===3) showReview();
+
+      document.getElementById('nextBtn')?.addEventListener('click', nextStep);
+      document.getElementById('prevBtn')?.addEventListener('click', prevStep);
+      document.getElementById('saveBtn')?.addEventListener('click', saveCigar);
+    }
+
+    function nextStep(){ saveCurrentStep(); if(currentStep<steps.length-1){ currentStep++; renderStep(); } }
+    function prevStep(){ saveCurrentStep(); if(currentStep>0){ currentStep--; renderStep(); } }
+
+    function saveCurrentStep(){
+      if(currentStep===0){
+        cigarData.name = document.getElementById('name').value;
+        cigarData.price = parseFloat(document.getElementById('price').value).toFixed(2);
+        cigarData.date = document.getElementById('date').value;
+      } else if(currentStep===2){
+        cigarData.photo = document.getElementById('photo').value;
+        cigarData.description = document.getElementById('description').value;
+      }
+    }
+
+    function setupFlavorWheel(){
+      const canvas = document.getElementById('flavorWheel');
+      const ctx = canvas.getContext('2d');
+      const flavors = ["Woody","Spicy","Nutty","Sweet","Creamy","Earthy"];
+      const size = Math.min(canvas.parentElement.offsetWidth,300);
+      canvas.width = size; canvas.height = size;
+      const radius = size/2;
+      const center = {x:radius,y:radius};
+
+      function drawWheel(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        const slice = (2*Math.PI)/flavors.length;
+        flavors.forEach((f,i)=>{
+          ctx.beginPath();
+          ctx.moveTo(center.x,center.y);
+          ctx.arc(center.x,center.y,radius,i*slice,(i+1)*slice);
+          ctx.fillStyle = `hsl(${i*60},70%,70%)`;
+          ctx.fill(); ctx.stroke();
+          const angle = (i+0.5)*slice;
+          ctx.fillStyle="#000"; ctx.font="14px Arial"; ctx.textAlign="center"; ctx.textBaseline="middle";
+          ctx.fillText(f, center.x + Math.cos(angle)*radius*0.6, center.y + Math.sin(angle)*radius*0.6);
+          const intensity = cigarData.flavorProfile[f]||0;
+          if(intensity>0){
+            ctx.beginPath();
+            const r = (intensity/5)*radius*0.9;
+            ctx.arc(center.x + Math.cos(angle)*r, center.y + Math.sin(angle)*r,5,0,2*Math.PI);
+            ctx.fillStyle="#000"; ctx.fill();
+          }
+        });
+      }
+      drawWheel();
+
+      canvas.onclick=(e)=>{
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left - center.x;
+        const y = e.clientY - rect.top - center.y;
+        let angle = Math.atan2(y,x); if(angle<0) angle+=2*Math.PI;
+        const slice = (2*Math.PI)/flavors.length;
+        const index = Math.floor(angle/slice);
+        const dist = Math.sqrt(x*x+y*y);
+        const intensity = Math.round((dist/radius)*5);
+        cigarData.flavorProfile[flavors[index]] = Math.min(intensity,5);
+        drawWheel();
+      }
+    }
+
+    function showReview(){
+      const reviewDiv = document.getElementById('review');
+      reviewDiv.innerHTML=`
+        <p><strong>Name:</strong> ${cigarData.name}</p>
+        <p><strong>Price:</strong> $${cigarData.price}</p>
+        <p><strong>Date:</strong> ${cigarData.date}</p>
+        <p><strong>Flavors:</strong> ${JSON.stringify(cigarData.flavorProfile)}</p>
+        <p><strong>Description:</strong> ${cigarData.description || 'N/A'}</p>
+        ${cigarData.photo?`<img src="${cigarData.photo}" style="width:100%;margin-top:10px;">`:''}
+      `;
+    }
+
+    function saveCigar(){
+      cigars.push({...cigarData});
+      localStorage.setItem('cigars', JSON.stringify(cigars));
+      alert("Cigar saved!");
+      showButtonsScreen();
+    }
+
+    function renderVault(){
+      content.innerHTML = '';
+      if(cigars.length === 0) { content.innerHTML = '<p>No cigars logged yet.</p>'; }
+      cigars.forEach((cigar,index)=>{
+        const card = document.createElement('div');
+        card.classList.add('cigar-card');
+        card.innerHTML=`
+          ${cigar.photo? `<img src="${cigar.photo}" alt="${cigar.name}">` : `<div style="width:100px;height:100px;background:#ccc;border-radius:10px;"></div>`}
+          <div class="cigar-info">
+            <h3>${cigar.name}</h3>
+            <p><strong>Date:</strong> ${cigar.date}</p>
+            <p><strong>Price:</strong> $${cigar.price}</p>
+            <p><strong>Flavors:</strong> ${JSON.stringify(cigar.flavorProfile)}</p>
+            <p>${cigar.description}</p>
+            <button onclick="deleteCigar(${index})">Delete</button>
+          </div>
+        `;
+        content.appendChild(card);
+      });
+      const backBtn = document.createElement('a');
+      backBtn.textContent = "Back";
+      backBtn.classList.add('main-button');
+      backBtn.style.marginTop = "20px";
+      backBtn.addEventListener('click', showButtonsScreen);
+      content.appendChild(backBtn);
+    }
+
+    function deleteCigar(index){
+      if(confirm("Delete this cigar?")){
+        cigars.splice(index,1);
+        localStorage.setItem('cigars',JSON.stringify(cigars));
+        renderVault();
+      }
+    }
+
+    // Show initial buttons screen
+    showButtonsScreen();
+  </script>
 </body>
 </html>
