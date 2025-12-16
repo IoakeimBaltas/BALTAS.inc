@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="Ioakeim Baltas">
+<title>Base32 Encoder/Decoder</title>
+<style>
+  /* ================== RESET & BASE ================== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+    background: #f0f2f5;
+    color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  body.dark-mode { background: #121212; color: #e0e0e0; }
+
+  /* ================== CONTAINER ================== */
+  .container {
+    max-width: 700px;
+    width: 100%;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+  }
+  body.dark-mode .container {
+    background: #1e1e1e;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  /* ================== HEADINGS ================== */
+  h2 { font-size: 26px; margin-bottom: 25px; transition: color 0.3s; }
+  body.dark-mode h2 { color: #ffffff; }
+  h3 { margin-top: 15px; margin-bottom: 10px; color: #555; }
+  body.dark-mode h3 { color: #ccc; }
+
+  /* ================== TEXTAREAS ================== */
+  textarea {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+    transition: border 0.2s ease, background-color 0.3s, color 0.3s;
+    color: #222;
+  }
+  body.dark-mode textarea { background-color: #2a2a2a; color: #f0f0f0; border-color: #444; }
+  textarea:focus { outline: none; border-color: #4A90E2; background-color: #fff; color: #222; }
+  body.dark-mode textarea:focus { background-color: #333; color: #f0f0f0; }
+
+  /* ================== BUTTONS ================== */
+  button {
+    padding: 10px 18px;
+    font-size: 15px;
+    margin: 0 10px 20px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(to right, #4A90E2, #357ABD);
+    color: white;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.1s ease;
+  }
+  button:hover { background: linear-gradient(to right, #5AA0F3, #468BD9); transform: translateY(-1px); }
+  button:active { transform: translateY(0); }
+
+  /* ================== FOOTER ================== */
+  .footer { text-align: center; margin-top: 20px; font-size: 13px; color: #666; }
+  body.dark-mode .footer { color: #999; }
+
+  /* ================== MODE SWITCH ================== */
+  .mode-switch {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+  }
+  .mode-switch label { margin-left: 10px; color: #4A90E2; font-weight: 600; cursor: pointer; }
+
+  /* ================== BACK BUTTON ================== */
+  #backBtn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color: #FF2E2E;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  #backBtn:hover { background-color: #FF4A4A; }
+
+  /* ================== RESPONSIVE ================== */
+  @media (max-width: 768px) {
+    .container { padding: 20px; }
+    h2 { font-size: 22px; }
+    button { width: 100%; margin-bottom: 10px; }
+    #backBtn { font-size: 13px; padding: 6px 12px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- BACK TO PORTFOLIO -->
+  <button id="backBtn" onclick="history.back()">Back</button>
+
+  <!-- MODE SWITCH -->
+  <div class="mode-switch">
+    <input type="checkbox" id="modeToggle" onclick="toggleMode()">
+    <label for="modeToggle">night mode / light mode</label>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+    <h2>Base32 Encoder & Decoder</h2>
+    <h3>Input:</h3>
+    <textarea id="inputText" rows="5" placeholder="Please place your text here..."></textarea>
+
+    <div>
+      <button onclick="encodeBase32()">Encode</button>
+      <button onclick="decodeBase32()">Decode</button>
+    </div>
+
+    <h3>Output:</h3>
+    <textarea id="outputText" rows="5" readonly></textarea>
+  </div>
+
+
+  <script>
+    const base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+
+    function encodeBase32() {
+      const input = document.getElementById("inputText").value;
+      const bytes = new TextEncoder().encode(input);
+      let bits = '';
+      let output = '';
+      for (let byte of bytes) bits += byte.toString(2).padStart(8,'0');
+      for (let i=0;i<bits.length;i+=5){
+        const chunk = bits.substring(i,i+5).padEnd(5,'0');
+        output += base32Chars[parseInt(chunk,2)];
+      }
+      document.getElementById("outputText").value = output;
+    }
+
+    function decodeBase32() {
+      const input = document.getElementById("inputText").value.toUpperCase().replace(/=+$/,'');
+      let bits = '';
+      for (let char of input){
+        const index = base32Chars.indexOf(char);
+        if(index===-1){ alert("Invalid Base32 character: "+char); return; }
+        bits += index.toString(2).padStart(5,'0');
+      }
+      const bytes = [];
+      for(let i=0;i+8<=bits.length;i+=8) bytes.push(parseInt(bits.substring(i,i+8),2));
+      document.getElementById("outputText").value = new TextDecoder().decode(new Uint8Array(bytes));
+    }
+
+    function toggleMode() {
+      const body = document.body;
+      const toggle = document.getElementById('modeToggle');
+      if(toggle.checked){
+        body.classList.add('dark-mode');
+        localStorage.setItem('theme','dark');
+      } else {
+        body.classList.remove('dark-mode');
+        localStorage.setItem('theme','light');
+      }
+    }
+
+    window.onload = () => {
+      const theme = localStorage.getItem('theme') || 'light';
+      const toggle = document.getElementById('modeToggle');
+      if(theme==='dark'){
+        document.body.classList.add('dark-mode');
+        toggle.checked = true;
+      }
+    };
+  </script>
+</body>
+</html>
