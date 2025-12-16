@@ -173,6 +173,7 @@ function renderFlavorWheel() {
         const option = document.createElement('div');
         option.className = 'flavor-option';
         option.textContent = flavor;
+        option.dataset.flavor = flavor;
         if (selectedFlavors.includes(flavor)) option.classList.add('selected');
 
         option.addEventListener('click', () => {
@@ -329,10 +330,13 @@ document.addEventListener('DOMContentLoaded', () => {
     initRating();
     renderCigars();
     updateStepDisplay();
+    initRedGridBackground(); // Initialize the background here
 });
 
-
-(function() {
+// ==============================
+// Interactive Red Grid Background
+// ==============================
+function initRedGridBackground() {
     const canvas = document.createElement('canvas');
     canvas.id = 'htb-bg';
     document.body.prepend(canvas);
@@ -343,7 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.width = width;
     canvas.height = height;
 
-    // Make sure canvas stays behind all content
     canvas.style.position = 'fixed';
     canvas.style.top = 0;
     canvas.style.left = 0;
@@ -380,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const dy = y - mouse.y;
                     const dist = Math.sqrt(dx*dx + dy*dy);
                     if (dist < glowRadius) {
-                        alpha = 0.5 * (1 - dist / glowRadius) + 0.1; // stronger glow
+                        alpha = 0.5 * (1 - dist / glowRadius) + 0.1;
                     }
                 }
 
@@ -397,4 +400,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     animate();
-})();
+}
