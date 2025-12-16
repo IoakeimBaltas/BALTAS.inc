@@ -3,6 +3,7 @@
     max-width: 1000px;
     margin: 0 auto;
     color: var(--light-text);
+    font-family: 'Inter', sans-serif;
 }
 
 .project-hero {
@@ -11,7 +12,7 @@
 }
 
 .project-hero h1 {
-    font-size: clamp(2.5rem, 6vw, 3rem);
+    font-size: clamp(2.5rem, 10vw, 3rem);
     color: var(--accent-color);
     margin-bottom: 20px;
 }
@@ -56,7 +57,7 @@
 }
 
 .tech-stack span {
-    background-color: rgba(255,46,46,0.1);
+    background-color: rgba(255, 59, 59, 0.1);
     color: var(--accent-color);
     padding: 5px 12px;
     border-radius: 4px;
@@ -75,5 +76,14 @@
     width: 100%;
     border-radius: 8px;
     border: 2px solid var(--accent-color);
-    box-shadow: 0 0 15px rgba(255,46,46,0.3);
+    box-shadow: 0 0 15px rgba(255,59,59,0.3);
+}
+@media (max-width: 768px) {
+    .project-page {
+        padding: 80px 5%;
+    }
+
+    .project-hero h1 {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
 }
