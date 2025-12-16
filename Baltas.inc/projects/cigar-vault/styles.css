@@ -1,21 +1,69 @@
+/* ================== VARIABLES ================== */
+:root {
+    --accent-color: #FF2E2E;       /* Strong Red */
+    --dark-bg: #0b0b0b;            /* Dark Background */
+    --card-bg: #1A1A1A;            /* Card Background */
+    --light-text: #EDEDED;
+    --secondary-text: #CCCCCC;
+}
+
+/* ================== GLOBAL FADE-IN ================== */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================== GLOBAL STYLES ================== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    background-color: var(--dark-bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--light-text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+h1,h2,h3 { font-family: 'Inconsolata', monospace; font-weight: 600; color: var(--light-text); }
+a { color: var(--accent-color); text-decoration: none; transition: color 0.3s; }
+a:hover { color: var(--light-text); }
+.accent-text { color: var(--accent-color); }
+
+/* ================== HEADER ================== */
+.main-header {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    padding: 20px 10%;
+    background-color: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,46,46,0.2);
+}
+.logo a { font-size: 1.3rem; font-weight:700; letter-spacing:1px; color: var(--accent-color); }
+.main-nav a { margin-left:30px; color: var(--secondary-text); font-size:0.9rem; text-transform:uppercase; }
+.main-nav a:hover, .main-nav a.active { color: var(--accent-color); }
+
+/* ================== PROJECT PAGE ================== */
 .project-page {
     padding: 120px 10%;
     max-width: 1000px;
     margin: 0 auto;
-    color: var(--light-text);
 }
 
 .project-hero {
     text-align: center;
     margin-bottom: 60px;
 }
-
 .project-hero h1 {
     font-size: clamp(2.5rem, 6vw, 4rem);
     color: var(--accent-color);
     margin-bottom: 20px;
 }
-
 .project-hero .project-tagline {
     font-size: 1.2rem;
     color: var(--secondary-text);
@@ -28,52 +76,125 @@
     gap: 20px;
     flex-wrap: wrap;
 }
+.project-links .cta-button {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid var(--accent-color);
+}
+.project-links .primary-cta {
+    background: var(--accent-color);
+    color: var(--dark-bg);
+}
+.project-links .primary-cta:hover {
+    background: transparent;
+    color: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-color);
+}
+.project-links .secondary-cta {
+    background: transparent;
+    color: var(--accent-color);
+}
+.project-links .secondary-cta:hover {
+    background: var(--accent-color);
+    color: var(--dark-bg);
+    box-shadow: 0 0 15px var(--accent-color);
+}
 
+/* ================== PROJECT DETAILS ================== */
 .project-details h2 {
     font-size: 1.8rem;
     margin-top: 50px;
     margin-bottom: 15px;
     color: var(--accent-color);
 }
-
 .project-details p,
 .project-details ul {
     font-size: 1rem;
     margin-bottom: 15px;
     color: var(--light-text);
 }
-
 .project-details ul {
     list-style-type: disc;
     padding-left: 20px;
 }
 
+/* ================== TECH STACK (Skills-style) ================== */
 .tech-stack {
     display: flex;
-    gap: 10px;
     flex-wrap: wrap;
+    gap: 15px;
     margin-top: 15px;
 }
 
 .tech-stack span {
-    background-color: rgba(255,46,46,0.1);
-    color: var(--accent-color);
-    padding: 5px 12px;
-    border-radius: 4px;
+    background-color: var(--card-bg);
+    color: var(--light-text);
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,46,46,0.2);
     font-family: 'Inconsolata', monospace;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: default;
 }
 
+.tech-stack span:hover {
+    background-color: rgba(255,46,46,0.1);
+    transform: scale(1.05);
+}
+
+/* ================== SCREENSHOTS ================== */
 .project-screenshots {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
     margin-top: 30px;
 }
-
 .project-screenshots img {
     width: 100%;
     border-radius: 8px;
     border: 2px solid var(--accent-color);
     box-shadow: 0 0 15px rgba(255,46,46,0.3);
+}
+
+/* ================== FOOTER ================== */
+.main-footer {
+    text-align: center;
+    padding: 30px 10%;
+    border-top: 1px solid rgba(255,46,46,0.2);
+    color: var(--secondary-text);
+    font-size: 0.9rem;
+}
+.main-footer .accent-text {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* ================== INTERACTIVE BACKGROUND ================== */
+#htb-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--dark-bg);
+    display: block;
+}
+
+/* ================== RESPONSIVE ================== */
+@media(max-width: 992px) {
+    .project-page { padding: 100px 5%; }
+    .project-links { flex-direction: column; gap: 15px; }
+}
+@media(max-width: 768px) {
+    .main-header { padding: 15px 5%; }
+    .project-hero h1 { font-size: clamp(2rem, 8vw, 3rem); }
+    .project-screenshots { grid-template-columns: 1fr; }
 }
